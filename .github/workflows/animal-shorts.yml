@@ -7,9 +7,6 @@ on:
   schedule:
     - cron: "0 6 * * *"
 
-permissions:
-  contents: write
-
 jobs:
   download-videos:
     runs-on: ubuntu-latest
