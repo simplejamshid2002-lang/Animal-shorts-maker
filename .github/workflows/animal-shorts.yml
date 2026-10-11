@@ -1,15 +1,18 @@
 
 name: Animal Shorts Downloader
-permissions:
-  contents: write
+
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 6 * * *"
 
+permissions:
+  contents: write
+
 jobs:
   download-videos:
     runs-on: ubuntu-latest
+
     steps:
       - name: Get repository
         uses: actions/checkout@v4
@@ -21,18 +24,21 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
       - name: Download animal videos and create Shorts
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
         run: python main.py
-      
+
       - name: Save downloaded videos
         run: |
           if [ -d output ] && [ "$(find output -type f | wc -l)" -gt 0 ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add output/
-            git diff --cached --quiet || git commit -m "Add downloaded animal videos"
+            if ! git diff --cached --quiet; then
+              git commit -m "Add generated animal Shorts"
+            fi
             git pull --rebase origin main
             git push origin main
           fi
