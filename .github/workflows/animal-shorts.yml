@@ -1,6 +1,7 @@
 
 name: Animal Shorts Downloader
-
+permissions:
+  contents: write
 on:
   workflow_dispatch:
   schedule:
