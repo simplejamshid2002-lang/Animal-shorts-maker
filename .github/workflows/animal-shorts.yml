@@ -21,7 +21,10 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
+      - name: Download animal videos and create Shorts
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: python main.py
       
       - name: Save downloaded videos
         run: |
